@@ -6,6 +6,8 @@ namespace TaskManager.Models
     {
         public int Id { get; set; }
         public string Email { get; set; } = string.Empty;
+
+        [JsonIgnore]  // hides password
         public string PasswordHash { get; set; } = string.Empty;
 
         [JsonIgnore]  // prevents infinite loop
