@@ -21,21 +21,24 @@ namespace TaskManager.API
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            
-            var tasks = await _context.Tasks.ToListAsync();
+
+            var tasks = await _context.Tasks.Include(t => t.User) // populate user info
+            .ToListAsync();
             return Ok(tasks);
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TaskItem task)
         {
-            
+
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
+            //to include the user in the returned object
+            await _context.Entry(task).Reference(t => t.User).LoadAsync();
             return CreatedAtAction(nameof(Get), new { id = task.Id }, task);
         }
 
-        [HttpPut("{id}")] 
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] TaskItem updated)
         {
             var task = await _context.Tasks.FindAsync(id);
