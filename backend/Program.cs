@@ -13,8 +13,24 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//Added for CORS Policy
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:5173")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
+});
+
 var app = builder.Build();
 
+//Added for CORS Policy
+app.UseCors(MyAllowSpecificOrigins);
 
 if (app.Environment.IsDevelopment())
 {
