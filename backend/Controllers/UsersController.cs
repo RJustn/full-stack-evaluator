@@ -31,4 +31,22 @@ public class UsersControllers : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
     }
 
+    // DELETE /users/{id}
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var user = await _context.Users
+        .FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user == null)
+
+        return NotFound();
+        
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+
+    return NoContent();
+    }
+
+
 }
