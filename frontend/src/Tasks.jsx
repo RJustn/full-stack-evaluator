@@ -1,14 +1,7 @@
-import { useEffect, useState } from 'react';
-import api from "./api/axios"
+//import { useEffect, useState } from 'react';
+//import api from "./api/axios"
 
-function Tasks() {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    api.get('/tasks')
-      .then(res => setTasks(res.data))
-      .catch(err => console.error(err));
-  }, []);
+function Tasks({ tasks }) {
 
   return (
     <div>

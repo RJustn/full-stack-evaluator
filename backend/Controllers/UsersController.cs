@@ -19,7 +19,7 @@ public class UsersControllers : ControllerBase
     public async Task<IActionResult> Get()
     {
         var users = await _context.Users.ToListAsync();
-         return Ok(users);
+        return Ok(users);
     }
 
     // POST /users
@@ -40,12 +40,12 @@ public class UsersControllers : ControllerBase
 
         if (user == null)
 
-        return NotFound();
-        
+            return NotFound();
+
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
 
-    return NoContent();
+        return NoContent();
     }
 
 
