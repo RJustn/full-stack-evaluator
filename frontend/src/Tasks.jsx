@@ -10,7 +10,15 @@ function Tasks({ tasks, users, reloadTasks, reloadUsers }) {
   // Adding task
   const handleAddTask = async (e) => {
     e.preventDefault();
-    if (!title.trim() || !selectedUserId) return;
+    if (!title.trim()) {
+      alert("Please enter a task title.");
+      return;
+    }
+
+    if (!selectedUserId) {
+      alert("Please select a user for this task.");
+      return;
+    }
 
     try {
       await api.post("/tasks", {
@@ -38,6 +46,13 @@ function Tasks({ tasks, users, reloadTasks, reloadUsers }) {
   const handleEditTask = async (e) => {
     e.preventDefault();
     if (!editingTask) return;
+
+    if (!title.trim()) {
+
+    alert("Task title cannot be empty.");
+    return;
+    
+   }
 
     try {
       await api.put(`/tasks/${editingTask.id}`, {
@@ -89,19 +104,22 @@ function Tasks({ tasks, users, reloadTasks, reloadUsers }) {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <label style={{ marginLeft: "10px" }}>
-          Done:
-          <input
-            type="checkbox"
-            checked={isDone}
-            onChange={(e) => setIsDone(e.target.checked)}
-          />
-        </label>
+        {editingTask && (
+          <label style={{ marginLeft: "10px" }}>
+            Done:
+            <input
+              type="checkbox"
+              checked={isDone}
+              onChange={(e) => setIsDone(e.target.checked)}
+            />
+          </label>
+        )}
 
         <select
           value={selectedUserId}
           onChange={(e) => setSelectedUserId(e.target.value)}
           style={{ marginLeft: "10px" }}
+          disabled={!!editingTask}
         >
           <option value="">Select User</option>
           {users?.map((u) => (
