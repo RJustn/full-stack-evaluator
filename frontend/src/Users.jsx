@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from "./api/axios"
 
-function Users({ users, loadusers }) {
+function Users({ users, reloadUsers, reloadTasks }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');;
 
@@ -19,7 +19,7 @@ function Users({ users, loadusers }) {
             alert(`User created with ID: ${response.data.id}`);
             setEmail('');
             setPassword('');
-            loadusers();
+            reloadUsers();
 
         } catch (err) {
             console.error('Error creating user:', err);
@@ -31,7 +31,8 @@ function Users({ users, loadusers }) {
     const handleDeleteUser = async (userId) => {
         try {
             await api.delete(`/users/${userId}`);
-            loadusers();
+            reloadUsers();
+            reloadTasks();
 
         } catch (err) {
             console.error('Error deleting user:', err);
@@ -41,39 +42,68 @@ function Users({ users, loadusers }) {
 
     return (
         <div>
-            <h2>Users</h2>
-
             <h2>Create User</h2>
             <form onSubmit={handleAddUser}>
                 <input
+                    style={{ marginLeft: "10px" }}
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                 />
                 <input
+                    style={{ marginLeft: "10px" }}
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                 />
-                <button type="submit">Create User</button>
+                <button style={{ marginLeft: "10px" }} type="submit">Create User</button>
             </form>
 
+            <h2>Users</h2>
+            <table border="1" cellPadding="8" cellSpacing="0" style={{ borderCollapse: 'collapse', width: '100%', marginTop: "10px" }}>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Tasks</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        users.map((user) => (
+                            <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td><strong>{user.email}</strong></td>
+                                <td>
+                                    {(user.tasks ?? []).length > 0 ? (
+                                        <ul style={{ margin: 0, paddingLeft: '20px' }}>
+                                            {user.tasks.map((task) => (
+                                                <li key={task.id}>
+                                                    {task.title} {task.isDone ? '✅' : '❌'}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <em>No tasks</em>
+                                    )}
+                                </td>
+                                <td>
+                                    <button
+                                        onClick={() => handleDeleteUser(user.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
 
-            <ul>
-                {users.map(user => (
-                    <li key={user.id}>
-                        {user.email}
-                        <button
-                            style={{ marginLeft: '10px' }}
-                            onClick={() => handleDeleteUser(user.id)}
-                        >
-                            Delete
-                        </button>
-                    </li>
-                ))}
-            </ul>
+
         </div>
     );
 }

@@ -50,6 +50,7 @@ function Tasks({ tasks, users, reloadTasks, reloadUsers }) {
       setSelectedUserId("");
       setIsDone(false);
       reloadTasks();
+      reloadUsers();
     } catch (err) {
       console.error("Error editing task:", err);
     }

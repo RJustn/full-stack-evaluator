@@ -38,7 +38,7 @@ function App() {
     <div className="app">
       <h1>📝 React Task Evaluator</h1>
       <Tasks tasks={tasks} reloadTasks={loadTasks} users={users} reloadUsers={loadUsers} />
-      <Users users={users} reloadUsers={loadUsers} />
+      <Users users={users} reloadUsers={loadUsers} reloadTasks={loadTasks} />
     </div>
   );
 }
