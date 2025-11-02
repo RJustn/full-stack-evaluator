@@ -54,6 +54,21 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+button.delete-btn {
+  background-color: #d65e5a;
+  border-color: #d65e5a;
+}
+
+button.delete-btn:hover {
+  background-color: #c9302c;
+  border-color: #ac2925;
+}
+
+button.delete-btn:focus,
+button.delete-btn:focus-visible {
+  outline: 4px auto rgba(220, 53, 69, 0.4);
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

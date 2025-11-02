@@ -72,7 +72,7 @@ function Users({ users, reloadUsers, reloadTasks }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {
+                    {users?.length > 0 ? (
                         users.map((user) => (
                             <tr key={user.id}>
                                 <td>{user.id}</td>
@@ -92,14 +92,21 @@ function Users({ users, reloadUsers, reloadTasks }) {
                                 </td>
                                 <td>
                                     <button
-                                        onClick={() => handleDeleteUser(user.id)}
+                                        className="delete-btn" onClick={() => handleDeleteUser(user.id)}
                                     >
                                         Delete
                                     </button>
                                 </td>
                             </tr>
                         ))
-                    }
+
+                    ) : (
+                        <tr>
+                            <td colSpan="4" style={{ textAlign: 'center' }}>
+                                No users
+                            </td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
 

@@ -139,20 +139,32 @@ function Tasks({ tasks, users, reloadTasks, reloadUsers }) {
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task) => (
-            <tr key={task.id}>
-              <td>{task.id}</td>
-              <td>{task.title}</td>
-              <td>{task.isDone ? "✅ Done" : "❌ Not Done"}</td>
-              <td>{task.user?.email || "No user"}</td>
-              <td>
-                <button onClick={() => startEditing(task)}>Edit</button>
-                <button onClick={() => handleDeleteTask(task.id)} style={{ marginLeft: "5px" }}>
-                  Delete
-                </button>
+          {tasks.length > 0 ? (
+            tasks.map((task) => (
+              <tr key={task.id}>
+                <td>{task.id}</td>
+                <td>{task.title}</td>
+                <td>{task.isDone ? "✅ Done" : "❌ Not Done"}</td>
+                <td>{task.user?.email || "No user"}</td>
+                <td>
+                  <button onClick={() => startEditing(task)}>Edit</button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDeleteTask(task.id)}
+                    style={{ marginLeft: "5px" }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                No tasks available
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
